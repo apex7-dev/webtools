@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" class=""> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Hashtag Generator</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Apply base font smoothing */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Style for individual hashtag items */
+        .hashtag-item {
+            @apply inline-block bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-sm font-medium px-3 py-1.5 rounded-full cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/70 transition-all duration-150 ease-in-out shadow-sm border border-blue-200 dark:border-blue-800;
+            /* Adding a subtle hover effect */
+            transform: scale(1);
+        }
+        .hashtag-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Improve focus states for accessibility and visual feedback */
+        *:focus-visible {
+             @apply ring-2 ring-offset-2 ring-blue-500 dark:ring-offset-gray-900;
+             outline: none;
+        }
+        /* Specific focus for buttons if needed */
+        button:focus-visible {
+             @apply ring-2 ring-offset-2 ring-opacity-75;
+        }
+
+
+        /* Style for the details/summary dropdown arrow */
+        details summary::-webkit-details-marker {
+            display: none; /* Hide default marker in Chrome/Safari */
+        }
+        details summary {
+            list-style: none; /* Hide default marker in Firefox */
+        }
+        details[open] > summary > i.fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+    </style>
+    <script>
+        // Tailwind Dark Mode Config - important for dark mode to work
+        tailwind.config = {
+            darkMode: 'class', // Enables class-based dark mode
+            theme: {
+                extend: {
+                   // Add custom theme extensions if needed (e.g., fonts, colors)
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300 ease-in-out">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <header class="flex justify-between items-center mb-6 md:mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 flex items-center">
+                <i class="fas fa-hashtag mr-2 transform rotate-[-15deg]"></i>Hashtag Genius
+            </h1>
+            <button id="darkModeToggle" aria-label="Toggle Dark Mode" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-900 transition-all duration-200">
+                <i class="fas fa-moon text-yellow-500 block dark:hidden"></i>
+                <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+            </button>
+        </header>
+
+        <section class="bg-white dark:bg-gray-800 p-5 md:p-6 rounded-lg shadow-lg mb-6 md:mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Enter keyword or description:</h2>
+            <div class="flex flex-col md:flex-row md:items-end gap-4 mb-6">
+                <div class="flex-grow">
+                    <label for="keywordInput" class="sr-only">Keyword Input</label>
+                    <input
+                        type="text"
+                        id="keywordInput"
+                        placeholder="e.g., 'sustainable fashion', 'AI advancements', 'vegan baking'"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition"
+                    >
+                </div>
+                <button id="generateBtn" class="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-2 px-6 rounded-md transition-all duration-200 ease-in-out shadow-md hover:shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-bolt"></i> Generate
+                </button>
+            </div>
+
+            <details class="border dark:border-gray-700 rounded-md p-1">
+                <summary class="cursor-pointer text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 list-none flex items-center justify-between p-2">
+                    <span><i class="fas fa-filter mr-2"></i>Advanced Filters</span>
+                    <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                </summary>
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-2">
+                     <div>
+                        <label for="platformSelect" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Platform</label>
+                        <select id="platformSelect" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="general">General</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="twitter">Twitter/X</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="pinterest">Pinterest</option>
+                            <option value="google">Google Trends</option>
+                            <option value="bing">Bing Trends</option>
+                            <option value="yahoo">Yahoo Trends</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="languageSelect" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Language</label>
+                        <select id="languageSelect" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="zh">Chinese</option>
+                            <option value="all">Any Language</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="regionSelect" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Region</label>
+                        <select id="regionSelect" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="global">Global</option>
+                            <option value="us">United States</option>
+                            <option value="gb">United Kingdom</option>
+                            <option value="ca">Canada</option>
+                            <option value="au">Australia</option>
+                            <option value="in">India</option>
+                            <option value="bd">Bangladesh</option>
+                            <option value="de">Germany</option>
+                            <option value="br">Brazil</option>
+                        </select>
+                    </div>
+                     <div>
+                         <label for="sortSelect" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
+                        <select id="sortSelect" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <option value="relevance">Relevance</option>
+                            <option value="popularity">Popularity</option>
+                            <option value="trending">Trending</option>
+                            <option value="engagement">Engagement</option>
+                        </select>
+                     </div>
+                </div>
+            </details>
+
+        </section>
+
+        <section id="resultsSection" class="bg-white dark:bg-gray-800 p-5 md:p-6 rounded-lg shadow-lg min-h-[200px] relative transition-all duration-300 hidden">
+             <div id="loadingIndicator" class="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80 flex flex-col items-center justify-center z-10 rounded-lg hidden">
+                <svg class="animate-spin h-10 w-10 text-blue-600 dark:text-blue-400 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="text-lg font-medium text-gray-700 dark:text-gray-300">Generating Hashtags...</span>
+             </div>
+
+             <div id="errorMessage" class="hidden text-center text-red-600 dark:text-red-400 font-semibold p-4 border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/50 rounded-md mb-4">
+                <p><i class="fas fa-exclamation-triangle mr-2"></i><span id="errorText"></span></p>
+            </div>
+
+             <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200" id="resultsHeader" >Suggested Hashtags:</h3>
+             <div id="hashtagsList" class="flex flex-wrap gap-2 mb-6">
+                </div>
+
+             <div id="actionButtons" class="mt-6 flex flex-col sm:flex-row gap-3 justify-end border-t border-gray-200 dark:border-gray-700 pt-4 hidden">
+                 <button id="copyBtn" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-200 ease-in-out shadow hover:shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-gray-800">
+                     <i class="fas fa-copy"></i> Copy All
+                 </button>
+                  <button id="shareBtn" class="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-200 ease-in-out shadow hover:shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 dark:focus:ring-offset-gray-800">
+                     <i class="fas fa-share-alt"></i> Share
+                 </button>
+             </div>
+        </section>
+
+        <footer class="text-center text-xs text-gray-500 dark:text-gray-400 mt-8">
+            Hashtag Genius &copy; <span id="currentYear"></span>. API results are simulated for demonstration.
+        </footer>
+
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Wait for the DOM to be fully loaded before running script
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const keywordInput = document.getElementById('keywordInput');
+            const generateBtn = document.getElementById('generateBtn');
+            const platformSelect = document.getElementById('platformSelect');
+            const languageSelect = document.getElementById('languageSelect');
+            const regionSelect = document.getElementById('regionSelect');
+            const sortSelect = document.getElementById('sortSelect');
+
+            const resultsSection = document.getElementById('resultsSection');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const resultsHeader = document.getElementById('resultsHeader');
+            const hashtagsList = document.getElementById('hashtagsList');
+            const actionButtons = document.getElementById('actionButtons');
+            const copyBtn = document.getElementById('copyBtn');
+            const shareBtn = document.getElementById('shareBtn');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const htmlElement = document.documentElement; // Target <html> for 'dark' class
+
+            // --- State & Cache ---
+            let currentHashtags = []; // Holds the currently displayed hashtags
+            const cache = {}; // Simple in-memory cache for the session
+
+            // --- Dark Mode Logic ---
+            const applyTheme = (theme) => {
+                const moonIcon = darkModeToggle.querySelector('.fa-moon');
+                const sunIcon = darkModeToggle.querySelector('.fa-sun');
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    if (moonIcon) moonIcon.classList.add('hidden');
+                    if (sunIcon) sunIcon.classList.remove('hidden');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    if (moonIcon) moonIcon.classList.remove('hidden');
+                    if (sunIcon) sunIcon.classList.add('hidden');
+                }
+                // Store preference
+                localStorage.setItem('theme', theme);
+            };
+
+            const toggleDarkMode = () => {
+                const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+                applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+            };
+
+            // Initialize theme on page load
+            // Check localStorage first, then system preference as fallback
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const initialTheme = savedTheme ?? (prefersDark ? 'dark' : 'light');
+            applyTheme(initialTheme);
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+
+            // --- API Simulation ---
+            // IMPORTANT: Replace this function with actual API calls when available.
+            const simulateApiFetch = (keyword, filters) => {
+                console.log("Simulating API fetch for:", keyword, "Filters:", filters);
+
+                // Return a Promise to mimic asynchronous behavior
+                return new Promise((resolve, reject) => {
+                    const lowerKeyword = keyword.toLowerCase().trim();
+
+                    // Basic validation
+                    if (!lowerKeyword) {
+                        // Use reject for errors
+                        return reject(new Error("Keyword cannot be empty. Please enter some text."));
+                    }
+
+                    // Simulate network delay (e.g., 1 to 1.5 seconds)
+                    const delay = 1000 + Math.random() * 500;
+                    setTimeout(() => {
+                        // --- Start of Simulated Data Generation ---
+                        let baseHashtags = [];
+
+                        // Generate hashtags based on keywords (very basic examples)
+                        if (lowerKeyword.includes('travel') || lowerKeyword.includes('vacation')) {
+                            baseHashtags = ['#travel', '#wanderlust', '#travelgram', '#instatravel', '#explore', '#adventure', '#tourism', '#vacationmode', '#travelphotography', '#digitalnomad', '#beautifuldestinations', '#holiday', '#trip'];
+                        } else if (lowerKeyword.includes('food') || lowerKeyword.includes('recipe') || lowerKeyword.includes('cooking')) {
+                            baseHashtags = ['#foodie', '#instafood', '#foodphotography', '#healthyfood', '#homemade', '#delicious', '#foodlover', '#recipeoftheday', '#cookingram', '#eatwell', '#veganfood', '#glutenfree', '#chefmode'];
+                        } else if (lowerKeyword.includes('tech') || lowerKeyword.includes('ai') || lowerKeyword.includes('code')) {
+                            baseHashtags = ['#technology', '#innovation', '#ai', '#artificialintelligence', '#programming', '#coding', '#developer', '#software', '#gadgets', '#futuretech', '#machinelearning', '#datascience', '#webdev'];
+                        } else if (lowerKeyword.includes('fashion') || lowerKeyword.includes('style')) {
+                            baseHashtags = ['#fashion', '#style', '#ootd', '#instafashion', '#fashionblogger', '#streetstyle', '#sustainablefashion', '#vintagefashion', '#lookoftheday', '#fashionista', '#mensfashion', '#womensfashion'];
+                        } else if (lowerKeyword.includes('fitness') || lowerKeyword.includes('health') || lowerKeyword.includes('gym')) {
+                             baseHashtags = ['#fitness', '#healthylifestyle', '#workout', '#gymmotivation', '#fitfam', '#getfit', '#exercise', '#wellness', '#bodybuilding', '#personaltrainer', '#healthyeating', '#motivation'];
+                        } else if (lowerKeyword.includes('error')) {
+                            // Simulate an API error condition
+                             return reject(new Error("Simulated Error: Unable to fetch hashtags for 'error'. Try another term."));
+                        }
+                        else {
+                            // Generic fallback hashtags if no specific match
+                            baseHashtags = ['#instagood', '#photooftheday', '#trending', '#viral', `#${lowerKeyword.replace(/\s+/g, '')}`, '#inspiration', '#motivation', '#picoftheday', '#instadaily', '#followme', '#explorepage'];
+                        }
+
+                        // --- Simulate Filtering & Sorting (Basic) ---
+                        let filteredHashtags = [...baseHashtags];
+
+                        // Simulate platform influence (e.g., TikTok might prefer shorter/trendier)
+                        if (filters.platform === 'tiktok') {
+                            filteredHashtags = filteredHashtags.filter(h => h.length < 15).slice(0, 15);
+                            filteredHashtags.push('#tiktok', '#fyp'); // Add platform specific
+                        } else if (filters.platform === 'instagram') {
+                             filteredHashtags = filteredHashtags.slice(0, 30); // IG allows more
+                             filteredHashtags.push('#instagram', '#instadaily');
+                        } else if (filters.platform === 'linkedin') {
+                             filteredHashtags = filteredHashtags.filter(h => !['#followme', '#viral', '#fyp'].includes(h)); // Remove less professional tags
+                             filteredHashtags.push('#professionaldevelopment', '#business', '#networking');
+                        }
+
+                         // Simulate language (just append lang code for demo)
+                         if (filters.language !== 'en' && filters.language !== 'all') {
+                             filteredHashtags = filteredHashtags.map(h => `${h}_${filters.language}`);
+                         }
+
+                         // Simulate region (just append region code for demo)
+                         if (filters.region !== 'global') {
+                            filteredHashtags.push(`#${lowerKeyword.replace(/\s+/g, '')}${filters.region.toUpperCase()}`);
+                            filteredHashtags.push(`#${filters.region.toLowerCase()}trends`);
+                         }
+
+                        // Simulate sorting
+                        if (filters.sort === 'popularity' || filters.sort === 'engagement') {
+                            // Simple reverse sort for demo
+                            filteredHashtags.sort(() => Math.random() - 0.5).reverse();
+                        } else if (filters.sort === 'trending') {
+                             // Random sort for demo
+                             filteredHashtags.sort(() => Math.random() - 0.5);
+                        }
+                        // Default ('relevance') keeps the original order mostly
+
+                        // Limit results to a reasonable number
+                        const finalHashtags = filteredHashtags.slice(0, 30); // Max 30 hashtags
+
+                        // --- End of Simulated Data Generation ---
+
+                        if (finalHashtags.length > 0) {
+                            // Resolve the promise with the generated hashtags
+                            resolve(finalHashtags);
+                        } else {
+                            // Reject if no hashtags were generated (e.g., keyword too obscure)
+                            reject(new Error("No relevant hashtags found. Try a different keyword or broader term."));
+                        }
+
+                    }, delay); // End setTimeout
+                }); // End Promise
+            };
+
+            // --- UI Update Functions ---
+            const displayHashtags = (hashtags) => {
+                hashtagsList.innerHTML = ''; // Clear previous results
+                currentHashtags = hashtags; // Store for copy/share functionality
+
+                if (!hashtags || hashtags.length === 0) {
+                     resultsHeader.textContent = 'No Hashtags Found';
+                     hashtagsList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-sm">Try adjusting your keyword or filters.</p>';
+                     actionButtons.classList.add('hidden'); // Hide copy/share if no results
+                     return;
+                }
+
+                resultsHeader.textContent = `Suggested Hashtags (${hashtags.length}):`; // Update header with count
+                hashtags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.textContent = tag;
+                    tagElement.className = 'hashtag-item'; // Apply Tailwind classes via CSS @apply
+                    tagElement.title = `Click to copy "${tag}"`; // Tooltip for individual copy (optional)
+                    tagElement.addEventListener('click', () => {
+                        navigator.clipboard.writeText(tag).then(() => {
+                            // Optional: Brief visual feedback for single copy
+                            tagElement.style.backgroundColor = '#a7f3d0'; // Light green
+                            setTimeout(() => { tagElement.style.backgroundColor = ''; }, 300);
+                        }).catch(err => console.error('Failed to copy single tag:', err));
+                    });
+                    hashtagsList.appendChild(tagElement);
+                });
+                actionButtons.classList.remove('hidden'); // Show copy/share buttons
+            };
+
+            const displayError = (message) => {
+                errorText.textContent = message || "An unknown error occurred."; // Default error message
+                errorMessage.classList.remove('hidden');
+                resultsHeader.textContent = 'Error';
+                hashtagsList.innerHTML = ''; // Clear results area
+                actionButtons.classList.add('hidden'); // Hide buttons on error
+                currentHashtags = []; // Clear stored hashtags
+            };
+
+            const setLoadingState = (isLoading) => {
+                if (isLoading) {
+                    generateBtn.disabled = true;
+                    // Update button text/icon for loading state
+                    generateBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path> </svg> Generating...`;
+                    resultsSection.classList.remove('hidden'); // Show results section
+                    loadingIndicator.classList.remove('hidden'); // Show spinner
+                    errorMessage.classList.add('hidden'); // Hide previous errors
+                    hashtagsList.innerHTML = ''; // Clear previous results
+                    resultsHeader.textContent = 'Generating...';
+                    actionButtons.classList.add('hidden');
+                } else {
+                    generateBtn.disabled = false;
+                    // Restore original button text/icon
+                    generateBtn.innerHTML = `<i class="fas fa-bolt"></i> Generate`;
+                     loadingIndicator.classList.add('hidden'); // Hide spinner
+                }
+            };
+
+            // --- Event Handlers ---
+            const handleGenerateClick = async () => {
+                const keyword = keywordInput.value;
+                const filters = {
+                    platform: platformSelect.value,
+                    language: languageSelect.value,
+                    region: regionSelect.value,
+                    sort: sortSelect.value
+                };
+                // Create a unique key for caching based on input and filters
+                const cacheKey = `${keyword.toLowerCase().trim()}-${filters.platform}-${filters.language}-${filters.region}-${filters.sort}`;
+
+                setLoadingState(true);
+                errorMessage.classList.add('hidden'); // Ensure error message is hidden at start
+
+                try {
+                     // 1. Check Cache
+                     if (cache[cacheKey]) {
+                         console.log("Using cached results for:", cacheKey);
+                         displayHashtags(cache[cacheKey]);
+                         // No need to call setLoadingState(false) here, as it's done in finally
+                     } else {
+                         console.log("Fetching new results for:", cacheKey);
+                         // 2. Fetch Data (Simulated)
+                         // IMPORTANT: Replace 'simulateApiFetch' with your actual API call function
+                         const hashtags = await simulateApiFetch(keyword, filters);
+
+                         // 3. Cache Result
+                         cache[cacheKey] = hashtags; // Store successful result in cache
+
+                         // 4. Display Result
+                         displayHashtags(hashtags);
+                     }
+
+                } catch (error) {
+                    // 5. Handle Errors
+                    console.error("Error during hashtag generation:", error);
+                    displayError(error.message); // Display the error message to the user
+                } finally {
+                    // 6. Always turn off loading state
+                    setLoadingState(false);
+                }
+            };
+
+            const handleCopyClick = () => {
+                if (currentHashtags.length > 0) {
+                    const hashtagString = currentHashtags.join(' '); // Join with space
+                    navigator.clipboard.writeText(hashtagString)
+                        .then(() => {
+                            // Visual feedback for successful copy
+                            const originalText = copyBtn.innerHTML;
+                            copyBtn.innerHTML = `<i class="fas fa-check mr-1"></i> Copied!`;
+                            copyBtn.classList.replace('from-green-500', 'from-green-700'); // Change gradient
+                            copyBtn.classList.replace('to-green-600', 'to-green-800');
+                            setTimeout(() => {
+                                copyBtn.innerHTML = originalText;
+                                copyBtn.classList.replace('from-green-700', 'from-green-500'); // Restore gradient
+                                copyBtn.classList.replace('to-green-800', 'to-green-600');
+                            }, 2000); // Reset button text after 2 seconds
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy hashtags: ', err);
+                            // Provide fallback/error message to user
+                            alert("Copying failed. Your browser might not support this feature or permissions are denied. Please try copying manually.");
+                        });
+                } else {
+                     alert("Nothing to copy yet. Please generate some hashtags first.");
+                }
+            };
+
+             const handleShareClick = () => {
+                 if (currentHashtags.length > 0 && navigator.share) {
+                     const hashtagString = currentHashtags.join(' ');
+                     navigator.share({
+                         title: 'Generated Hashtags',
+                         text: `Here are some hashtags for "${keywordInput.value}":\n\n${hashtagString}`,
+                         // url: window.location.href // Optional: Share the link to the tool
+                     })
+                     .then(() => console.log('Content shared successfully'))
+                     .catch((error) => {
+                         console.error('Error sharing:', error);
+                         // Don't alert if user cancelled the share dialog
+                         if (error.name !== 'AbortError') {
+                            alert("Sharing failed. Please try copying the hashtags instead.");
+                         }
+                     });
+                 } else if (currentHashtags.length === 0) {
+                      alert("Generate some hashtags before trying to share!");
+                 }
+                 else {
+                     // Fallback if Web Share API is not supported
+                     alert("Sharing is not supported by your browser. Please use the 'Copy All' button.");
+                     // Optionally trigger copy automatically as a fallback
+                     // handleCopyClick();
+                 }
+             };
+
+            // --- Attach Event Listeners ---
+            generateBtn.addEventListener('click', handleGenerateClick);
+
+            // Allow pressing Enter in the input field to trigger generation
+            keywordInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent potential form submission if wrapped in form
+                    handleGenerateClick();
+                }
+            });
+
+            copyBtn.addEventListener('click', handleCopyClick);
+            shareBtn.addEventListener('click', handleShareClick);
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
