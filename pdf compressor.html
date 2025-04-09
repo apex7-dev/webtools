@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PDF compressor tool to reduce PDF file size while maintaining quality. Compress PDFs for email, web, or storage with our advanced compression technology.">
+    <meta name="keywords" content="PDF compressor, reduce PDF size, PDF optimizer, compress PDF online, free PDF tool">
+    <meta name="author" content="PDF Tools">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Advanced PDF Compressor | Reduce PDF File Size Online">
+    <meta property="og:description" content="Compress PDF files online for free. Reduce file size while preserving quality.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/pdf-compressor">
+    
+    <title>Advanced PDF Compressor | Reduce PDF File Size Online</title>
+    
+    <link rel="canonical" href="https://yourwebsite.com/pdf-compressor">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --medium-gray: #757575;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 50px 0 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .ad-banner {
+            background-color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 20px auto;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            max-width: 728px;
+            min-height: 90px;
+        }
+        
+        .tool-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 800px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--medium-gray);
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(66, 133, 244, 0.05);
+        }
+        
+        .upload-area i {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .upload-area h3 {
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .upload-area p {
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .btn-secondary {
+            background-color: var(--medium-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #616161;
+        }
+        
+        .compression-options {
+            margin-bottom: 30px;
+        }
+        
+        .compression-options h3 {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-option {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+        
+        .radio-option label {
+            display: block;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .radio-option input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .file-info {
+            display: none;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+        }
+        
+        .file-info.active {
+            display: block;
+        }
+        
+        .progress-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .progress-container.active {
+            display: block;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0;
+            transition: width 0.3s;
+        }
+        
+        .result-container {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f0fe;
+            border-radius: 8px;
+        }
+        
+        .result-container.active {
+            display: block;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #d2e3fc;
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-icon {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        .file-size {
+            font-weight: 500;
+        }
+        
+        .size-reduction {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .features {
+            padding: 50px 0;
+            background-color: white;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light-gray);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .faq {
+            padding: 50px 0;
+            background-color: #f5f7fa;
+        }
+        
+        .faq h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+        
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bdbdbd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #424242;
+            color: #bdbdbd;
+            font-size: 0.9rem;
+        }
+        
+        .mobile-ad {
+            display: none;
+            background-color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 20px auto;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            max-width: 320px;
+            min-height: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .ad-banner {
+                display: none;
+            }
+            
+            .mobile-ad {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+        
+        /* Icons (using Unicode as fallback) */
+        .icon-upload::before {
+            content: "↑";
+        }
+        .icon-pdf::before {
+            content: "PDF";
+        }
+        .icon-check::before {
+            content: "✓";
+        }
+        .icon-download::before {
+            content: "↓";
+        }
+    </style>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">PDF Tools</a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/tools">All Tools</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Advanced PDF Compressor</h1>
+                <p>Reduce the size of your PDF files without losing quality. Our intelligent compression algorithm optimizes your documents for web, email, or storage.</p>
+                
+                <!-- Desktop Ad Banner -->
+                <div class="ad-banner">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+                    <!-- PDF Compressor Top Banner -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </section>
+        
+        <section class="tool-section">
+            <div class="container">
+                <div class="tool-container">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="icon-upload"></div>
+                        <h3>Drag & Drop your PDF here</h3>
+                        <p>or click to browse files</p>
+                        <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+                        <button class="btn">Select PDF File</button>
+                    </div>
+                    
+                    <div class="file-info" id="fileInfo">
+                        <div class="icon-pdf"></div>
+                        <span id="fileName">example.pdf</span>
+                        <span id="fileSize">(2.4 MB)</span>
+                    </div>
+                    
+                    <div class="compression-options">
+                        <h3>Compression Level</h3>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="low" name="compression" value="low" checked>
+                                <label for="low">Low Compression<br><small>Best quality</small></label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="medium" name="compression" value="medium">
+                                <label for="medium">Medium Compression<br><small>Balanced</small></label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="high" name="compression" value="high">
+                                <label for="high">High Compression<br><small>Smallest size</small></label>
+                            </div>
+                        </div>
+                        
+                        <div class="advanced-options" style="display: none;">
+                            <!-- Advanced options can be added here -->
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-bar">
+                            <div class="progress" id="progressBar"></div>
+                        </div>
+                        <p>Compressing your PDF... <span id="progressText">0%</span></p>
+                    </div>
+                    
+                    <button class="btn" id="compressBtn" style="display: none;">Compress PDF</button>
+                    
+                    <div class="result-container" id="resultContainer">
+                        <div class="result-row">
+                            <div class="result-info">
+                                <div class="result-icon icon-check"></div>
+                                <div>
+                                    <p>Original file: <span class="file-size" id="originalSize">2.4 MB</span></p>
+                                    <p>Compressed file: <span class="file-size" id="compressedSize">1.2 MB</span></p>
+                                </div>
+                            </div>
+                            <div class="size-reduction" id="sizeReduction">50% smaller</div>
+                        </div>
+                        <div class="result-row">
+                            <button class="btn" id="downloadBtn">
+                                <div class="icon-download"></div>
+                                Download Compressed PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Ad Banner -->
+                <div class="mobile-ad">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+                    <!-- PDF Compressor Mobile Banner -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_MOBILE_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="container">
+                <h2>Why Use Our PDF Compressor?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Lightning Fast</h3>
+                        <p>Our servers process your files in seconds, no matter how large they are.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure Processing</h3>
+                        <p>Files are processed securely and deleted automatically after 1 hour.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🖼️</div>
+                        <h3>Image Optimization</h3>
+                        <p>Intelligently compresses images while preserving visual quality.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💯</div>
+                        <h3>No Quality Loss</h3>
+                        <p>Advanced algorithms maintain text clarity and image quality.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h3>Browser-Based</h3>
+                        <p>Works in any modern browser - no software installation needed.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🆓</div>
+                        <h3>Completely Free</h3>
+                        <p>No watermarks, no registration, no hidden fees.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <div class="faq-question">How does PDF compression work?</div>
+                    <div class="faq-answer">
+                        <p>Our PDF compressor uses advanced algorithms to reduce file size by optimizing images, removing redundant data, and compressing the PDF structure. The level of compression can be adjusted to balance between file size and quality.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is my PDF file secure?</div>
+                    <div class="faq-answer">
+                        <p>Yes, your files are processed securely on our servers and automatically deleted after 1 hour. We don't store or share your documents with any third parties.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What's the maximum file size I can compress?</div>
+                    <div class="faq-answer">
+                        <p>You can compress PDF files up to 100MB with our free service. For larger files, consider using our premium service.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Will compression affect the quality of my PDF?</div>
+                    <div class="faq-answer">
+                        <p>With the "Low Compression" setting, quality loss is minimal. Higher compression levels may reduce image quality but preserve text clarity. You can preview the result before downloading.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I compress multiple PDFs at once?</div>
+                    <div class="faq-answer">
+                        <p>Currently, our tool processes one file at a time. For batch processing, check out our premium PDF tools.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Bottom Ad Banner -->
+        <div class="container">
+            <div class="ad-banner">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+                <!-- PDF Compressor Bottom Banner -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                     data-ad-slot="YOUR_BOTTOM_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>PDF Tools</h3>
+                    <ul>
+                        <li><a href="/pdf-compressor">PDF Compressor</a></li>
+                        <li><a href="/pdf-merger">PDF Merger</a></li>
+                        <li><a href="/pdf-splitter">PDF Splitter</a></li>
+                        <li><a href="/pdf-to-word">PDF to Word</a></li>
+                        <li><a href="/word-to-pdf">Word to PDF</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/careers">Careers</a></li>
+                        <li><a href="/press">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="/help">Help Center</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://twitter.com/pdftools">Twitter</a></li>
+                        <li><a href="https://facebook.com/pdftools">Facebook</a></li>
+                        <li><a href="https://linkedin.com/company/pdftools">LinkedIn</a></li>
+                        <li><a href="https://github.com/pdftools">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PDF Tools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const compressBtn = document.getElementById('compressBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const resultContainer = document.getElementById('resultContainer');
+        const originalSize = document.getElementById('originalSize');
+        const compressedSize = document.getElementById('compressedSize');
+        const sizeReduction = document.getElementById('sizeReduction');
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        // Event Listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        compressBtn.addEventListener('click', compressPDF);
+        
+        downloadBtn.addEventListener('click', downloadPDF);
+        
+        // Drag and Drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            uploadArea.style.borderColor = '#4285f4';
+            uploadArea.style.backgroundColor = 'rgba(66, 133, 244, 0.1)';
+        }
+        
+        function unhighlight() {
+            uploadArea.style.borderColor = '#757575';
+            uploadArea.style.backgroundColor = '';
+        }
+        
+        uploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                fileInput.files = files;
+                handleFileSelect({ target: fileInput });
+            }
+        }
+        
+        // File handling
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            
+            if (file && file.type === 'application/pdf') {
+                // Display file info
+                fileName.textContent = file.name;
+                fileSize.textContent = `(${formatFileSize(file.size)})`;
+                fileInfo.classList.add('active');
+                compressBtn.style.display = 'inline-block';
+                
+                // Store original file info for later comparison
+                originalSize.textContent = formatFileSize(file.size);
+            } else {
+                alert('Please select a valid PDF file.');
+            }
+        }
+        
+        // Compression simulation (in a real app, this would be server-side)
+        function compressPDF() {
+            const compressionLevel = document.querySelector('input[name="compression"]:checked').value;
+            const originalSizeBytes = fileInput.files[0].size;
+            
+            // Show progress
+            progressContainer.classList.add('active');
+            compressBtn.style.display = 'none';
+            
+            // Simulate compression progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
+                
+                if (progress === 100) {
+                    clearInterval(interval);
+                    showCompressionResult(originalSizeBytes, compressionLevel);
+                }
+            }, 200);
+        }
+        
+        function showCompressionResult(originalSizeBytes, compressionLevel) {
+            // Calculate simulated compressed size based on compression level
+            let compressionRatio;
+            
+            switch(compressionLevel) {
+                case 'low':
+                    compressionRatio = 0.7 + Math.random() * 0.1; // 70-80% of original
+                    break;
+                case 'medium':
+                    compressionRatio = 0.5 + Math.random() * 0.1; // 50-60% of original
+                    break;
+                case 'high':
+                    compressionRatio = 0.3 + Math.random() * 0.1; // 30-40% of original
+                    break;
+                default:
+                    compressionRatio = 0.6;
+            }
+            
+            const compressedSizeBytes = Math.round(originalSizeBytes * compressionRatio);
+            const reductionPercent = Math.round((1 - compressionRatio) * 100);
+            
+            // Display results
+            compressedSize.textContent = formatFileSize(compressedSizeBytes);
+            sizeReduction.textContent = `${reductionPercent}% smaller`;
+            resultContainer.classList.add('active');
+            
+            // Scroll to results
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function downloadPDF() {
+            // In a real app, this would download the actual compressed file
+            alert('In a real implementation, this would download the compressed PDF. This is a demo.');
+        }
+        
+        // Helper function to format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // FAQ accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+    
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Advanced PDF Compressor",
+      "url": "https://yourwebsite.com/pdf-compressor",
+      "description": "Free online tool to compress PDF files and reduce their size while maintaining quality.",
+      "applicationCategory": "DocumentUtility",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "PDF Tools"
+      }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Secure PDF Protector | Add Password & Protect Your PDFs Online</title>
+    <meta name="description" content="Easily protect your PDF files with a password online. Add user and owner passwords, restrict permissions like printing and copying. Fast, secure, and free tool.">
+    <meta name="keywords" content="pdf protector, secure pdf, password protect pdf, encrypt pdf, pdf security, online pdf tool, pdf permissions">
+    <style>
+        /* --- Basic Reset & Defaults --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Container --- */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex-grow: 1; /* Makes container fill space */
+        }
+
+        /* --- Header & Footer --- */
+        header, footer {
+            background-color: #4a6fa5; /* Example primary color */
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        header h1 {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            margin-top: 2rem; /* Pushes footer down */
+            font-size: 0.9em;
+        }
+
+        /* --- Tool Section --- */
+        .tool-section h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #2a4d69; /* Darker shade */
+        }
+
+        /* --- Form Styling --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input[type="file"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input[type="file"] {
+            padding: 5px; /* Adjust for file input */
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.85em;
+            color: #777;
+        }
+
+        /* --- Advanced Options --- */
+        .advanced-options {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
+            background-color: #f9f9f9;
+        }
+
+        .advanced-options legend {
+            font-weight: bold;
+            color: #4a6fa5;
+            padding: 0 0.5rem;
+        }
+
+        .permissions label {
+            font-weight: normal; /* Permissions labels are not bold */
+        }
+        .permissions div {
+            margin-bottom: 0.3rem;
+        }
+        .permissions input[type="checkbox"] {
+           margin-right: 8px;
+           vertical-align: middle; /* Align checkbox with label text */
+        }
+
+
+        /* --- Button Styling --- */
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #5cb85c; /* Success green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        button[type="submit"]:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+
+        /* --- Status Area --- */
+        #status-area {
+            margin-top: 1.5rem;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #status-message {
+            font-weight: bold;
+            min-height: 1.2em; /* Prevent layout shift when message appears */
+            margin-bottom: 10px; /* Space before download link */
+        }
+
+        #status-message.success {
+            color: #3c763d; /* Dark green */
+        }
+
+        #status-message.error {
+            color: #a94442; /* Dark red */
+        }
+         #status-message.processing {
+            color: #8a6d3b; /* Dark yellow/brown */
+        }
+
+
+        #download-link {
+            display: inline-block; /* Or block if preferred */
+            padding: 10px 15px;
+            background-color: #337ab7; /* Bootstrap primary blue */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #download-link:hover {
+            background-color: #286090;
+        }
+
+        /* --- Ad Spaces --- */
+        .ad-space {
+            background-color: #e9e9e9; /* Placeholder background */
+            border: 1px dashed #ccc;
+            min-height: 90px; /* Example min-height, adjust as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0; /* Spacing around ads */
+            overflow: hidden; /* Important for AdSense responsiveness */
+        }
+
+        .ad-placeholder-text {
+            color: #888;
+            font-style: italic;
+        }
+
+        /* Example: Style for a potential sidebar ad */
+        /*
+        .sidebar-ad {
+            float: right;  /* Basic float layout example */
+        /* width: 160px; /* Example width */
+        /* margin-left: 20px;
+        }
+        /* Clearfix if using floats */
+        /* main::after { content: ""; display: table; clear: both; } */
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            /* Example: Stack elements if sidebar was used */
+            /*
+            .sidebar-ad {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+                margin-top: 20px;
+                min-height: 50px; /* Adjust for mobile banner */
+            /* } */
+
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            header p {
+                font-size: 0.9rem;
+            }
+
+            button[type="submit"] {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+
+            .form-group input[type="file"],
+            .form-group input[type="password"] {
+                font-size: 0.95rem;
+            }
+
+            .advanced-options {
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <header>
+        <h1>Secure PDF Protector Tool</h1>
+        <p>Add password protection and restrict permissions for your PDF files.</p>
+    </header>
+
+    <main class="container">
+        <div class="tool-section">
+            <h2>Protect Your PDF</h2>
+            <form id="pdf-protect-form">
+                <div class="form-group">
+                    <label for="pdf-file">1. Select PDF File:</label>
+                    <input type="file" id="pdf-file" name="pdf-file" accept=".pdf" required>
+                    <small>Your file is processed locally in your browser and never uploaded.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-password">2. Set User Password (Optional):</label>
+                    <input type="password" id="user-password" name="user-password" placeholder="Password to open the PDF">
+                     <small>Leave blank if only setting permissions with an owner password.</small>
+               </div>
+
+                <fieldset class="advanced-options">
+                    <legend>3. Advanced: Owner Password & Permissions (Optional)</legend>
+                    <div class="form-group">
+                        <label for="owner-password">Owner Password:</label>
+                        <input type="password" id="owner-password" name="owner-password" placeholder="Password to change permissions">
+                        <small>Required if you want to restrict permissions below.</small>
+                    </div>
+                    <div class="form-group permissions">
+                        <label>Restrict Permissions (Requires Owner Password):</label>
+                        <div><input type="checkbox" id="permit-printing" name="permit-printing" checked> <label for="permit-printing">Allow Printing</label></div>
+                        <div><input type="checkbox" id="permit-modifying" name="permit-modifying" checked> <label for="permit-modifying">Allow Modifying</label></div>
+                        <div><input type="checkbox" id="permit-copying" name="permit-copying" checked> <label for="permit-copying">Allow Copying Content</label></div>
+                        <div><input type="checkbox" id="permit-annotations" name="permit-annotations" checked> <label for="permit-annotations">Allow Annotations/Forms</label></div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group">
+                     <button type="submit" id="protect-button">Protect PDF</button>
+                </div>
+            </form>
+
+            <div id="status-area">
+                <p id="status-message"></p>
+                <a id="download-link" style="display: none;" download>Download Protected PDF</a>
+            </div>
+        </div>
+
+        <div class="ad-space ad-space-bottom">
+            <p class="ad-placeholder-text">Advertisement</p>
+            </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> Your Website Name. All rights reserved.</p>
+        </footer>
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+    <script>
+        // Immediately-Invoked Function Expression (IIFE) to avoid global scope pollution
+        (function() {
+            // --- DOM Elements ---
+            const form = document.getElementById('pdf-protect-form');
+            const fileInput = document.getElementById('pdf-file');
+            const userPasswordInput = document.getElementById('user-password');
+            const ownerPasswordInput = document.getElementById('owner-password');
+            const protectButton = document.getElementById('protect-button');
+            const statusMessage = document.getElementById('status-message');
+            const downloadLink = document.getElementById('download-link');
+            const currentYearSpan = document.getElementById('current-year');
+
+            // Permissions checkboxes
+            const permitPrintingCheckbox = document.getElementById('permit-printing');
+            const permitModifyingCheckbox = document.getElementById('permit-modifying');
+            const permitCopyingCheckbox = document.getElementById('permit-copying');
+            const permitAnnotationsCheckbox = document.getElementById('permit-annotations');
+
+            // --- PDF Library ---
+            // pdf-lib is loaded globally via the script tag above
+            // Destructure needed components if pdf-lib is loaded and available
+            let PDFDocument, PermissionFlag;
+            if (typeof PDFLib !== 'undefined') {
+                 PDFDocument = PDFLib.PDFDocument;
+                 PermissionFlag = PDFLib.PermissionFlag;
+            } else {
+                console.error("pdf-lib is not loaded! PDF protection functionality will not work.");
+                // Optionally disable the form or show an error message permanently
+                showStatus("Error: Required PDF library failed to load. Please refresh.", "error");
+                 if (protectButton) protectButton.disabled = true;
+            }
+
+
+            // --- Event Listeners ---
+            if (form && PDFLib) { // Only add listener if form and library exist
+                form.addEventListener('submit', handleFormSubmit);
+            }
+
+
+            // --- Functions ---
+
+            /**
+             * Handles the form submission event.
+             * @param {Event} event - The form submission event.
+             */
+            async function handleFormSubmit(event) {
+                event.preventDefault(); // Prevent default page reload
+
+                 // Ensure library is loaded before proceeding
+                if (!PDFDocument || !PermissionFlag) {
+                    showStatus("Error: PDF library not available.", "error");
+                    return;
+                }
+
+                const pdfFile = fileInput.files[0];
+                const userPassword = userPasswordInput.value;
+                const ownerPassword = ownerPasswordInput.value;
+
+                // --- Basic Validation ---
+                if (!pdfFile) {
+                    showStatus("Please select a PDF file.", "error");
+                    return;
+                }
+                if (pdfFile.type !== "application/pdf") {
+                     showStatus("Invalid file type. Please select a PDF file.", "error");
+                     return;
+                }
+                if (!userPassword && !ownerPassword) {
+                    showStatus("Please set at least a User Password or an Owner Password.", "error");
+                    return;
+                }
+
+                 // Warn if only owner password is set without user password
+                let proceed = true;
+                if (ownerPassword && !userPassword) {
+                     proceed = confirm("You haven't set a User Password. Anyone can open the PDF, but permissions will be restricted according to your settings below. Continue?");
+                }
+                if (!proceed) {
+                     showStatus("Protection cancelled.", "error"); // Provide feedback
+                     return; // User cancelled
+                }
+
+
+                // --- UI Updates: Processing Start ---
+                showStatus("Processing PDF...", "processing");
+                protectButton.disabled = true;
+                downloadLink.style.display = 'none'; // Hide previous link
+                downloadLink.removeAttribute('href'); // Clear old URL
+
+                try {
+                    // --- Read File ---
+                    const pdfBytes = await readFileAsArrayBuffer(pdfFile);
+
+                    // --- Load PDF ---
+                    const pdfDoc = await PDFDocument.load(pdfBytes, {
+                        ignoreEncryption: true // Attempt to load even if encrypted
+                    });
+
+                    // Check if already encrypted
+                    if (pdfDoc.isEncrypted) {
+                         showStatus("The selected PDF is already password-protected. Cannot re-encrypt directly.", "error");
+                         protectButton.disabled = false;
+                         return;
+                    }
+
+
+                    // --- Prepare Encryption Options ---
+                    const permissions = {
+                         printing: permitPrintingCheckbox.checked ? PermissionFlag.Print : undefined,
+                         modifying: permitModifyingCheckbox.checked ? PermissionFlag.Modify : undefined,
+                         copying: permitCopyingCheckbox.checked ? PermissionFlag.Copy : undefined,
+                         annotating: permitAnnotationsCheckbox.checked ? PermissionFlag.Annotate : undefined,
+                    };
+
+                    // Filter out undefined permissions (where checkbox was unchecked)
+                    const activePermissions = Object.values(permissions).filter(p => p !== undefined);
+
+                    // --- Encrypt and Save PDF ---
+                     const options = {
+                        useObjectStreams: false // Often better compatibility for encrypted files
+                     };
+                     // Only add passwords to options if they are provided
+                    if (userPassword) {
+                        options.userPassword = userPassword;
+                    }
+                    if (ownerPassword) {
+                        options.ownerPassword = ownerPassword;
+                        // Only apply permissions if an owner password is set
+                        options.permissions = activePermissions;
+                    }
+
+
+                     const encryptedPdfBytes = await pdfDoc.save(options);
+
+                    // --- Create Download ---
+                    const blob = new Blob([encryptedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    const originalFileName = pdfFile.name.replace(/\.pdf$/i, ''); // Remove .pdf extension
+                    const protectedFileName = `protected-${originalFileName}.pdf`;
+
+                    downloadLink.href = url;
+                    downloadLink.download = protectedFileName;
+                    downloadLink.style.display = 'block'; // Show download link
+
+                    showStatus("PDF successfully protected!", "success");
+
+                    // Clean up the Object URL eventually (optional for simple cases, browser usually handles it)
+                    // downloadLink.addEventListener('click', () => {
+                    //    setTimeout(() => URL.revokeObjectURL(url), 100); // Revoke after download starts
+                    // }, { once: true });
+
+
+                } catch (error) {
+                    console.error("Error protecting PDF:", error);
+                    // Check for specific errors if possible (e.g., load errors for already encrypted files pdf-lib might throw)
+                    if (error.message && error.message.toLowerCase().includes('encrypted')) {
+                         showStatus("Error: Could not process the PDF. It might be encrypted or corrupted.", "error");
+                    } else {
+                        showStatus(`An error occurred: ${error.message || 'Unknown error'}. Please try again.`, "error");
+                    }
+                } finally {
+                    // --- UI Updates: Processing End ---
+                    protectButton.disabled = false; // Re-enable button
+                }
+            }
+
+            /**
+             * Reads a File object as an ArrayBuffer.
+             * @param {File} file - The file to read.
+             * @returns {Promise<ArrayBuffer>} A promise that resolves with the file content as ArrayBuffer.
+             */
+            function readFileAsArrayBuffer(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = (error) => reject(error);
+                    reader.readAsArrayBuffer(file);
+                });
+            }
+
+            /**
+             * Displays a status message to the user.
+             * @param {string} message - The message to display.
+             * @param {"success" | "error" | "processing"} type - The type of message for styling.
+             */
+            function showStatus(message, type) {
+                if (statusMessage) {
+                    statusMessage.textContent = message;
+                    statusMessage.className = type; // Apply CSS class for color
+                }
+            }
+
+            /**
+             * Sets the current year in the footer.
+             */
+            function setFooterYear() {
+                if (currentYearSpan) {
+                    // Use provided date 'Tuesday, April 8, 2025' to set the year
+                    currentYearSpan.textContent = '2025';
+                }
+            }
+
+            // --- Initial Setup ---
+            setFooterYear();
+
+        })(); // Execute the IIFE
+    </script>
+
+    </body>
+</html>

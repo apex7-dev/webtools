@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PDF Converter | Fast, Free, Online</title>
+    <meta name="description" content="Convert your JPG images to PDF files quickly and easily. Free online tool, no upload required. Supports multiple files and responsive design.">
+    <meta name="keywords" content="jpg to pdf, convert jpg to pdf, image to pdf, jpg to pdf converter, online converter, free converter, jpeg to pdf">
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <style>
+        /* --- START CSS --- */
+
+        /* Basic Reset & Body Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        header h1 {
+            color: #0056b3;
+            margin-bottom: 5px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background-color: #1e7e34;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Converter Tool Styling */
+        .converter-tool {
+            margin-bottom: 30px;
+        }
+
+        .converter-tool h2 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .file-input-area {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #eef;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Spacing between button and text */
+        }
+
+        #fileCount {
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Preview Area */
+        .preview-area {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px dashed #ccc;
+            min-height: 100px;
+            border-radius: 5px;
+            display: flex; /* Use flexbox for previews */
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            gap: 10px; /* Spacing between preview items */
+        }
+
+        #previewPlaceholder {
+            color: #888;
+            text-align: center;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+
+        .preview-item {
+            position: relative;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background-color: #fff;
+            text-align: center;
+            max-width: 120px; /* Max width for preview items */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-item img {
+            max-width: 100px;
+            max-height: 100px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .preview-item .remove-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            line-height: 18px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .preview-item .file-name {
+            font-size: 11px;
+            word-break: break-all; /* Prevent long names from overflowing */
+            color: #555;
+             max-height: 2.4em; /* Limit height to roughly 2 lines */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Add ... for overflow */
+            line-height: 1.2em;
+        }
+
+        /* Options Area */
+        .options-area {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f8ff; /* Light blue background */
+            border-radius: 5px;
+        }
+
+        .options-area label {
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .options-area select {
+            padding: 5px 8px;
+            margin-right: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Action Area */
+        .action-area {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .status-message {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 1.2em; /* Reserve space for the message */
+        }
+        .status-message.success {
+            color: #28a745;
+        }
+        .status-message.error {
+            color: #dc3545;
+        }
+        .status-message.processing {
+            color: #007bff;
+        }
+
+
+        /* Features Section */
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .features li {
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto; /* Pushes footer to the bottom */
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Ad Placeholders */
+        .ad-placeholder {
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin: 25px 0; /* More vertical margin */
+            padding: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .file-input-area {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+             .options-area select {
+                margin-bottom: 10px; /* Stack options nicely on mobile */
+                margin-right: 5px;
+                width: calc(50% - 10px); /* Roughly two selects per row */
+            }
+
+             .options-area label {
+                display: block;
+                margin-bottom: 3px;
+             }
+
+            .preview-item {
+                 max-width: 100px; /* Slightly smaller previews on mobile */
+            }
+             .preview-item img {
+                max-width: 80px;
+                max-height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .btn {
+                padding: 8px 15px;
+                font-size: 14px;
+                width: 100%; /* Make buttons full width */
+                margin: 5px 0;
+            }
+            .file-input-area {
+                padding: 10px;
+            }
+             .options-area select {
+                width: 100%; /* Full width selects on small screens */
+                margin-right: 0;
+             }
+             .preview-item {
+                 max-width: calc(50% - 10px); /* Two previews per row */
+            }
+        }
+        /* --- END CSS --- */
+    </style>
+
+</head>
+<body>
+
+    <header class="container">
+        <h1>JPG to PDF Converter</h1>
+        <p>Combine multiple JPG images into a single PDF document.</p>
+    </header>
+
+    <main class="container">
+
+        <div class="ad-placeholder ad-slot-1">
+             <p>Advertisement Area 1 (e.g., 728x90)</p>
+             </div>
+
+        <section class="converter-tool">
+            <h2>Upload Your JPG Files</h2>
+            <p>Select one or more JPG/JPEG images to convert.</p>
+
+            <div class="file-input-area">
+                <input type="file" id="fileInput" accept="image/jpeg, image/jpg" multiple hidden>
+                <button type="button" id="selectFilesButton" class="btn btn-primary">Select Images</button>
+                <span id="fileCount">No files selected</span>
+            </div>
+
+            <h2>Preview & Reorder (Remove)</h2>
+            <div id="previewArea" class="preview-area">
+                <p id="previewPlaceholder">Image previews will appear here after selection.</p>
+            </div>
+
+             <div class="options-area">
+                <label for="pageSize">Page Size:</label>
+                <select id="pageSize">
+                    <option value="a4" selected>A4</option>
+                    <option value="letter">Letter</option>
+                    <option value="legal">Legal</option>
+                    </select>
+                <label for="orientation">Orientation:</label>
+                <select id="orientation">
+                    <option value="p" selected>Portrait</option>
+                    <option value="l">Landscape</option>
+                </select>
+             </div>
+
+            <div class="action-area">
+                 <button type="button" id="convertToPdfButton" class="btn btn-success" disabled>Convert to PDF</button>
+                 <p id="status" class="status-message"></p>
+            </div>
+
+        </section>
+
+        <div class="ad-placeholder ad-slot-2">
+             <p>Advertisement Area 2 (e.g., Responsive)</p>
+             </div>
+
+         <section class="features">
+            <h2>Features</h2>
+            <ul>
+                <li>✅ Convert multiple JPGs to one PDF</li>
+                <li>✅ Fast client-side processing (no uploads)</li>
+                <li>✅ Image preview before conversion</li>
+                <li>✅ Select page size and orientation</li>
+                <li>✅ Fully responsive design</li>
+                <li>✅ Free to use</li>
+            </ul>
+         </section>
+
+    </main>
+
+    <footer class="container">
+        <p>&copy; <span id="currentYear"></span> Your Website Name. All rights reserved.</p>
+        </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // --- START JAVASCRIPT ---
+
+        // Ensure jsPDF is loaded
+        if (typeof window.jspdf === 'undefined') {
+            console.error("Error: jsPDF library not found. Make sure it's included before this script.");
+            // You could display an error message to the user here
+            alert("Error: PDF generation library failed to load. Please refresh the page.");
+        }
+
+        const { jsPDF } = window.jspdf; // Get the jsPDF constructor
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const selectFilesButton = document.getElementById('selectFilesButton');
+        const fileCountSpan = document.getElementById('fileCount');
+        const previewArea = document.getElementById('previewArea');
+        const previewPlaceholder = document.getElementById('previewPlaceholder');
+        const convertToPdfButton = document.getElementById('convertToPdfButton');
+        const statusDiv = document.getElementById('status');
+        const pageSizeSelect = document.getElementById('pageSize');
+        const orientationSelect = document.getElementById('orientation');
+        const currentYearSpan = document.getElementById('currentYear');
+
+        // State
+        let selectedFilesData = []; // Stores { file: File, dataUrl: string, id: number }
+
+        // --- Functions ---
+
+        // Update File Count Display
+        function updateFileCount() {
+            const count = selectedFilesData.length;
+            fileCountSpan.textContent = count === 1 ? '1 file selected' : `${count} files selected`;
+            convertToPdfButton.disabled = count === 0;
+            if (previewPlaceholder) {
+                 previewPlaceholder.style.display = count === 0 ? 'block' : 'none';
+            }
+        }
+
+        // Generate Preview Element
+        function createPreviewElement(fileData) {
+            const previewItem = document.createElement('div');
+            previewItem.classList.add('preview-item');
+            previewItem.dataset.id = fileData.id; // Link element to data via ID
+
+            const img = document.createElement('img');
+            img.src = fileData.dataUrl;
+            img.alt = `Preview of ${fileData.file.name}`;
+            img.onerror = () => {
+                img.alt = 'Preview failed to load';
+                // Optionally display a placeholder or error icon
+            };
+
+            const fileNameSpan = document.createElement('span');
+            fileNameSpan.classList.add('file-name');
+            fileNameSpan.textContent = fileData.file.name;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.classList.add('remove-btn');
+            removeBtn.innerHTML = '&times;'; // 'x' symbol
+            removeBtn.title = `Remove ${fileData.file.name}`;
+            removeBtn.onclick = () => removeFile(fileData.id);
+
+            previewItem.appendChild(img);
+            previewItem.appendChild(fileNameSpan);
+            previewItem.appendChild(removeBtn);
+            previewArea.appendChild(previewItem);
+        }
+
+        // Handle File Selection
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) {
+                return; // No files selected
+            }
+
+            // Clear previous status messages
+            setStatus('', '');
+
+            let filesProcessed = 0;
+            const totalFiles = files.length;
+            let uniqueIdCounter = Date.now(); // Simple way to generate unique IDs for this session
+
+            // Filter for JPG/JPEG files (client-side check)
+            const imageFiles = Array.from(files).filter(file =>
+                file.type === 'image/jpeg' || file.type === 'image/jpg'
+            );
+
+            if(imageFiles.length !== files.length) {
+                 setStatus('Warning: Some selected files were not JPG/JPEG and were ignored.', 'error');
+            }
+
+            if(imageFiles.length === 0 && files.length > 0) {
+                setStatus('No valid JPG/JPEG files were selected.', 'error');
+                return; // Stop if no valid images found
+            }
+
+            // Show processing status for previews
+            setStatus(`Loading previews for ${imageFiles.length} image(s)...`, 'processing');
+
+            imageFiles.forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const fileData = {
+                        file: file,
+                        dataUrl: e.target.result,
+                        id: uniqueIdCounter++ // Assign a unique ID
+                    };
+                    selectedFilesData.push(fileData);
+                    createPreviewElement(fileData); // Create preview after reading
+
+                    filesProcessed++;
+                    if (filesProcessed === imageFiles.length) {
+                        updateFileCount();
+                        setStatus('Previews loaded. Ready to convert.', 'success'); // Clear processing message
+                    }
+                };
+
+                reader.onerror = function() {
+                    console.error(`Error reading file: ${file.name}`);
+                    setStatus(`Error loading preview for ${file.name}`, 'error');
+                    filesProcessed++;
+                    if (filesProcessed === imageFiles.length) {
+                         updateFileCount(); // Update count even if some failed
+                        // Keep error message if some failed, otherwise clear if all processed somehow
+                        if (statusDiv.classList.contains('processing')) {
+                            setStatus('Some previews failed to load.', 'error');
+                        }
+                    }
+                };
+
+                reader.readAsDataURL(file); // Read file as Data URL for preview and embedding
+            });
+
+             // Reset file input value to allow selecting the same file(s) again
+             fileInput.value = null;
+        }
+
+
+        // Remove a File
+        function removeFile(idToRemove) {
+            // Remove from data array
+            selectedFilesData = selectedFilesData.filter(item => item.id !== idToRemove);
+
+            // Remove from preview area
+            const elementToRemove = previewArea.querySelector(`.preview-item[data-id='${idToRemove}']`);
+            if (elementToRemove) {
+                previewArea.removeChild(elementToRemove);
+            }
+
+            updateFileCount();
+             if(selectedFilesData.length === 0) {
+                setStatus('All files removed.', '');
+            }
+        }
+
+
+        // Set Status Message
+        function setStatus(message, type = '') { // type can be 'success', 'error', 'processing'
+            statusDiv.textContent = message;
+            statusDiv.className = 'status-message'; // Reset classes
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+        }
+
+        // Convert Images to PDF
+        async function convertToPdf() {
+            if (selectedFilesData.length === 0) {
+                setStatus('No files selected to convert.', 'error');
+                return;
+            }
+
+            setStatus('Initializing PDF generation...', 'processing');
+            convertToPdfButton.disabled = true;
+
+            const options = {
+                orientation: orientationSelect.value, // 'p' or 'l'
+                unit: 'mm', // Use millimeters for dimensions
+                format: pageSizeSelect.value, // 'a4', 'letter', etc.
+            };
+
+            try {
+                // Initialize jsPDF
+                const doc = new jsPDF(options);
+                const pageFormat = pageSizeSelect.value; // e.g., 'a4'
+                const pageOrientation = orientationSelect.value; // 'p' or 'l'
+
+                // Get page dimensions based on format and orientation
+                // jsPDF uses points internally, but addImage expects dimensions in the specified unit (mm here)
+                // Let's get dimensions in mm directly if possible or calculate from standard sizes
+                // A4: 210 x 297 mm | Letter: 215.9 x 279.4 mm | Legal: 215.9 x 355.6 mm
+                let pageWidth, pageHeight;
+                const formatSizes = {
+                     'a4': [210, 297],
+                     'letter': [215.9, 279.4],
+                     'legal': [215.9, 355.6]
+                };
+
+                if (formatSizes[pageFormat]) {
+                    pageWidth = pageOrientation === 'l' ? formatSizes[pageFormat][1] : formatSizes[pageFormat][0];
+                    pageHeight = pageOrientation === 'l' ? formatSizes[pageFormat][0] : formatSizes[pageFormat][1];
+                } else {
+                    // Fallback or error for unsupported format (shouldn't happen with select)
+                     console.warn("Unsupported page format selected, defaulting to A4 dimensions.");
+                     pageWidth = pageOrientation === 'l' ? 297 : 210;
+                     pageHeight = pageOrientation === 'l' ? 210 : 297;
+                }
+
+
+                setStatus('Processing images (this may take a moment)...', 'processing');
+
+                for (let i = 0; i < selectedFilesData.length; i++) {
+                    const fileData = selectedFilesData[i];
+                    setStatus(`Processing image ${i + 1} of ${selectedFilesData.length}...`, 'processing');
+
+                    // Add a new page for subsequent images
+                    if (i > 0) {
+                        doc.addPage(pageFormat, pageOrientation);
+                    }
+
+                    try {
+                        // Use a Promise to get image dimensions correctly
+                         const imgDimensions = await getImageDimensions(fileData.dataUrl);
+
+                         // Calculate scaling to fit the image onto the page while preserving aspect ratio
+                         const margin = 10; // Add 10mm margin around the image
+                         const availableWidth = pageWidth - 2 * margin;
+                         const availableHeight = pageHeight - 2 * margin;
+
+                         let imgWidthRatio = availableWidth / imgDimensions.width;
+                         let imgHeightRatio = availableHeight / imgDimensions.height;
+                         let scale = Math.min(imgWidthRatio, imgHeightRatio); // Use the smaller ratio to fit completely
+
+                         let scaledWidth = imgDimensions.width * scale;
+                         let scaledHeight = imgDimensions.height * scale;
+
+                         // Center the image on the page
+                         let x = margin + (availableWidth - scaledWidth) / 2;
+                         let y = margin + (availableHeight - scaledHeight) / 2;
+
+                        // Add image to PDF
+                        // Parameters: imageData, format, x, y, width, height
+                         doc.addImage(fileData.dataUrl, 'JPEG', x, y, scaledWidth, scaledHeight);
+
+                    } catch (imgError) {
+                         console.error(`Error processing image ${fileData.file.name}:`, imgError);
+                         setStatus(`Error adding image ${fileData.file.name} to PDF. Skipping.`, 'error');
+                         // Optionally add a placeholder text in the PDF for the failed image
+                         if(i > 0) doc.addPage(pageFormat, pageOrientation); // Ensure we are on a fresh page if previous one failed mid-way
+                         doc.text(`Error loading image: ${fileData.file.name}`, 10, 10);
+                    }
+                }
+
+                // Save the PDF
+                setStatus('Generating PDF file...', 'processing');
+                doc.save('converted-images.pdf');
+
+                setStatus('PDF successfully created!', 'success');
+                resetConverter(); // Reset after successful conversion
+
+            } catch (error) {
+                console.error('Error during PDF generation:', error);
+                setStatus(`An error occurred during PDF creation: ${error.message || error}`, 'error');
+                // Don't reset if failed, allow user to maybe try again or remove files
+                convertToPdfButton.disabled = selectedFilesData.length === 0; // Re-enable if files still exist
+            }
+        }
+
+        // Helper function to get image dimensions using a Promise
+        function getImageDimensions(dataUrl) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = function() {
+                    resolve({ width: this.naturalWidth, height: this.naturalHeight });
+                };
+                img.onerror = function() {
+                    reject('Could not load image to get dimensions.');
+                };
+                img.src = dataUrl;
+            });
+        }
+
+
+        // Reset the converter UI
+        function resetConverter() {
+            selectedFilesData = [];
+            previewArea.innerHTML = ''; // Clear previews
+             if (previewPlaceholder) {
+                 previewArea.appendChild(previewPlaceholder); // Add placeholder back if it exists
+                 previewPlaceholder.style.display = 'block';
+             }
+            updateFileCount();
+            // statusDiv text is usually set by the calling function (e.g., "PDF Created!" or "All files removed.")
+            // fileInput.value = null; // Already done in handleFileSelect
+        }
+
+        // Set current year in footer
+        function setFooterYear() {
+            if (currentYearSpan) {
+                // Get current date and format year - using current time provided in context
+                const now = new Date("2025-04-08T10:54:04+06:00"); // Set date based on context
+                currentYearSpan.textContent = now.getFullYear(); // Should output 2025
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // Trigger hidden file input when the custom button is clicked
+        selectFilesButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection when the input value changes
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Handle conversion button click
+        convertToPdfButton.addEventListener('click', convertToPdf);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+             setFooterYear();
+             updateFileCount(); // Initial setup for button state etc.
+        });
+
+        // --- END JAVASCRIPT ---
+    </script>
+
+</body>
+</html>
