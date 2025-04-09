@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced QR Code Generator (Combined)</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3a86ff; /* Vibrant Blue */
+            --secondary-color: #8338ec; /* Purple */
+            --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #e0e5ec 100%);
+            --card-background: #ffffff;
+            --text-color: #1f2937; /* Dark Gray */
+            --text-light: #6b7280; /* Medium Gray */
+            --border-color: #d1d5db; /* Light Gray */
+            --shadow-color: rgba(50, 50, 93, 0.1);
+            --shadow-hover-color: rgba(50, 50, 93, 0.15);
+            --success-color: #10b981; /* Emerald Green */
+            --error-color: #ef4444; /* Red */
+            --input-background: #f9fafb; /* Very Light Gray */
+            --font-family: 'Inter', sans-serif;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px; /* Base font size */
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-gradient);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem 1rem; /* More padding on larger screens */
+        }
+
+        .container {
+            background-color: transparent; /* Container is just for layout */
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* Space between header, main, footer */
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius-lg);
+            padding: 1.75rem 2rem;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: box-shadow var(--transition-speed) ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+             box-shadow: 0 7px 25px var(--shadow-hover-color);
+        }
+
+        /* Header */
+        .app-header {
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem; /* Add space below header */
+        }
+
+        .app-header h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-header p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Main Content Area */
+        .generator-main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 1.5rem;
+            align-items: start; /* Align items to the top */
+        }
+
+        /* Input & Options Sections */
+        .input-section, .options-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-label, .options-title, .result-title, label {
+            font-weight: 500;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and text */
+        }
+        .input-label svg, .options-title svg, .result-title svg, label svg {
+            color: var(--primary-color); /* Color the icons */
+            flex-shrink: 0; /* Prevent icons from shrinking */
+        }
+
+
+        .options-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem; /* Reduced margin */
+        }
+
+        textarea,
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: var(--input-background);
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+
+        textarea:focus,
+        input[type="number"]:focus,
+        select:focus,
+        input[type="color"]:focus-visible { /* Better focus for color */
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.25); /* Primary color focus ring */
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 45px;
+            padding: 0; /* Remove padding */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            background-color: transparent;
+            cursor: pointer;
+            overflow: hidden; /* Clip the swatch */
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 4px; /* Padding inside the border */
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 4px; /* Slightly rounded swatch */
+        }
+        input[type="color"]::-moz-color-swatch {
+            border: none;
+            border-radius: 4px;
+             height: calc(100% - 8px); /* Adjust for padding */
+             width: calc(100% - 8px);
+             margin: 4px;
+        }
+
+
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller minmax for more items */
+            gap: 1rem 1.5rem; /* Row and column gap */
+        }
+
+        .option-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem; /* Space between label and input */
+        }
+
+        .option-item-full {
+            grid-column: 1 / -1; /* Make error correction span full width */
+        }
+
+        /* QR Code Display */
+        .qr-code-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            grid-column: 1 / -1; /* Span full width on larger screens */
+            padding-top: 1rem; /* Add space above title */
+            animation: fadeIn 0.5s ease forwards; /* Fade in animation */
+            opacity: 0; /* Start hidden for animation */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .result-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .canvas-wrapper {
+            position: relative; /* For status message positioning if needed */
+            padding: 1rem;
+            background-color: var(--input-background); /* Light background for contrast */
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-color);
+            max-width: 100%; /* Ensure wrapper doesn't overflow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        #qr-canvas {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            background-color: var(--card-background); /* Ensure canvas bg is white */
+            border-radius: 4px;
+            transition: transform 0.3s ease; /* Smooth transition on change */
+        }
+
+        .status-message {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.75rem;
+            min-height: 1.2em; /* Reserve space */
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .status-message.error-message {
+             color: var(--error-color);
+             font-weight: 500;
+        }
+
+        /* Action Button (Download) */
+        .action-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--card-background); /* White text */
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            display: inline-flex; /* Use flex for icon alignment */
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-button:hover:not(:disabled) {
+            opacity: 0.9;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .action-button:active:not(:disabled) {
+             transform: translateY(0);
+             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-button:disabled {
+            background: var(--border-color);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .download-button {
+             background: linear-gradient(45deg, var(--success-color), #059669); /* Green gradient */
+        }
+        .download-button:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+
+
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .app-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .app-footer a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+             .generator-main {
+                grid-template-columns: 1fr; /* Stack columns */
+            }
+            .qr-code-display {
+                 grid-column: auto; /* Reset grid column span */
+            }
+            .container {
+                padding: 1.5rem 1rem;
+            }
+             .card {
+                padding: 1.5rem;
+            }
+             .app-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 15px; /* Slightly smaller base font */
+            }
+            .container {
+                padding: 1rem 0.5rem;
+            }
+             .card {
+                padding: 1rem;
+            }
+             .app-header h1 {
+                font-size: 1.6rem;
+            }
+             .grid-options {
+                grid-template-columns: 1fr; /* Single column */
+                gap: 0.75rem;
+            }
+             .action-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    </head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>QR Code Studio</h1>
+            <p>Generate and customize your QR codes instantly.</p>
+        </header>
+
+        <main class="generator-main">
+            <section class="input-section card">
+                <label for="qr-text" class="input-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Enter Text or URL
+                </label>
+                <textarea id="qr-text" rows="3" placeholder="e.g., https://www.google.com" aria-label="Text or URL input for QR code"></textarea>
+            </section>
+
+            <section class="options-section card">
+                <h2 class="options-title">Customize Appearance</h2>
+                <div class="grid-options">
+                    <div class="option-item">
+                        <label for="fg-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0L12 2.69z"></path><path d="M12 22.31V12"></path></svg>
+                            Foreground
+                        </label>
+                        <input type="color" id="fg-color" value="#0b132b" aria-label="Foreground color picker">
+                    </div>
+                    <div class="option-item">
+                        <label for="bg-color">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                            Background
+                        </label>
+                        <input type="color" id="bg-color" value="#ffffff" aria-label="Background color picker">
+                    </div>
+                    <div class="option-item">
+                        <label for="qr-size">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            Size (px)
+                        </label>
+                        <input type="number" id="qr-size" value="300" min="50" max="1000" step="10" aria-label="QR code size in pixels">
+                    </div>
+                     <div class="option-item">
+                        <label for="qr-padding">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.5A3.5 3.5 0 0 1 7.5 11H12v10H7.5A3.5 3.5 0 0 1 4 17.5v-3z"></path><path d="M20 9.5A3.5 3.5 0 0 0 16.5 6H12V3h4.5A3.5 3.5 0 0 1 20 6.5v3z"></path></svg>
+                            Padding
+                        </label>
+                        <input type="number" id="qr-padding" value="10" min="0" max="50" step="1" aria-label="QR code padding in pixels">
+                    </div>
+                    <div class="option-item option-item-full">
+                        <label for="error-level">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+                            Error Correction Level
+                        </label>
+                        <select id="error-level" aria-label="Error correction level selector">
+                            <option value="L">Low (~7% recovery)</option>
+                            <option value="M" selected>Medium (~15% recovery)</option>
+                            <option value="Q">Quartile (~25% recovery)</option>
+                            <option value="H">High (~30% recovery)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="qr-code-display card" id="qr-code-result" aria-live="polite">
+                 <h2 class="result-title">Your QR Code</h2>
+                 <div class="canvas-wrapper">
+                    <canvas id="qr-canvas" role="img" aria-label="Generated QR Code"></canvas>
+                    <p id="qr-code-status" class="status-message">Enter text and adjust options to generate.</p>
+                 </div>
+                <button id="download-btn" class="action-button download-button" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download PNG
+                </button>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Using the <a href="https://github.com/neocotic/qrious" target="_blank" rel="noopener noreferrer">QRious</a> library.</p>
+             <p>Current Time in Dhaka: <span id="current-time">Loading...</span></p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Element Selection ---
+            const textInput = document.getElementById('qr-text');
+            const fgColorInput = document.getElementById('fg-color');
+            const bgColorInput = document.getElementById('bg-color');
+            const sizeInput = document.getElementById('qr-size');
+            const errorLevelSelect = document.getElementById('error-level');
+            const paddingInput = document.getElementById('qr-padding');
+            const qrCodeResultDiv = document.getElementById('qr-code-result');
+            const qrCanvas = document.getElementById('qr-canvas');
+            const downloadBtn = document.getElementById('download-btn');
+            const statusMessage = document.getElementById('qr-code-status');
+            const currentTimeSpan = document.getElementById('current-time');
+
+            let qrInstance = null; // Holds the QRious instance
+            let debounceTimer; // For debouncing input changes
+
+            // --- Configuration ---
+            const DEBOUNCE_DELAY = 350; // Milliseconds delay for live update
+
+            // --- Initialization ---
+            setupEventListeners();
+            updateTime(); // Initial time update
+            setInterval(updateTime, 60000); // Update time every minute
+            qrCodeResultDiv.style.opacity = '0'; // Start hidden for animation
+
+            // --- Event Listeners Setup ---
+            function setupEventListeners() {
+                // Generate QR on input/change with debounce
+                [textInput, fgColorInput, bgColorInput, sizeInput, errorLevelSelect, paddingInput].forEach(input => {
+                    input.addEventListener('input', handleInputChange); // Use 'input' for immediate feedback on text/range/color
+                    if (input.tagName === 'SELECT') {
+                         input.addEventListener('change', handleInputChange); // 'change' is better for select
+                    }
+                });
+
+                // Download button click
+                downloadBtn.addEventListener('click', downloadQRCode);
+            }
+
+            // --- Event Handlers ---
+            function handleInputChange() {
+                clearTimeout(debounceTimer); // Clear previous timer
+                // Show generating state immediately for responsiveness
+                showStatus("Updating QR Code...");
+                downloadBtn.disabled = true; // Disable download while updating
+
+                debounceTimer = setTimeout(() => {
+                    generateQRCode();
+                }, DEBOUNCE_DELAY);
+            }
+
+            // --- Core QR Code Logic ---
+            function generateQRCode() {
+                const text = textInput.value.trim();
+                const size = parseInt(sizeInput.value, 10);
+                const fgColor = fgColorInput.value;
+                const bgColor = bgColorInput.value;
+                const errorLevel = errorLevelSelect.value;
+                const padding = parseInt(paddingInput.value, 10);
+
+                // --- Input Validation ---
+                if (!text) {
+                    clearQRCode("Enter text or URL to generate a QR code.");
+                    qrCodeResultDiv.style.opacity = '1'; // Make sure area is visible for message
+                    qrCanvas.style.display = 'none'; // Hide canvas specifically
+                    return;
+                }
+                if (isNaN(size) || size < 50 || size > 1000) {
+                    showStatus("Size must be between 50 and 1000 pixels.", true);
+                    // Optionally reset value: sizeInput.value = 300;
+                    return; // Stop generation
+                }
+                if (isNaN(padding) || padding < 0 || padding > 50) {
+                    showStatus("Padding must be between 0 and 50 pixels.", true);
+                    // Optionally reset value: paddingInput.value = 10;
+                    return; // Stop generation
+                }
+                // --- End Validation ---
+
+                try {
+                    // Make result area visible and ensure canvas is displayed
+                    qrCodeResultDiv.style.opacity = '1';
+                    qrCanvas.style.display = 'block';
+
+                    qrInstance = new QRious({
+                        element: qrCanvas,
+                        value: text,
+                        size: size,
+                        foreground: fgColor,
+                        background: bgColor,
+                        level: errorLevel,
+                        padding: padding,
+                    });
+
+                    if (qrInstance) {
+                        showStatus("QR Code updated successfully!", false);
+                        downloadBtn.disabled = false; // Enable download button
+                         // Trigger reflow for animation if needed (though opacity handles fade-in)
+                        qrCanvas.style.transform = 'scale(1.02)';
+                        setTimeout(() => { qrCanvas.style.transform = 'scale(1)'; }, 150);
+                    } else {
+                        throw new Error("QRious instance could not be created.");
+                    }
+
+                } catch (error) {
+                    console.error("QR Code Generation Error:", error);
+                    showStatus(`Error: ${error.message}`, true);
+                    clearQRCode("Failed to generate QR Code."); // Clear canvas on error
+                    qrCanvas.style.display = 'none';
+                    downloadBtn.disabled = true;
+                }
+            }
+
+            // --- Utility Functions ---
+
+            function downloadQRCode() {
+                if (!qrInstance || !qrCanvas || qrCanvas.style.display === 'none') {
+                    showStatus("No valid QR code available to download.", true);
+                    return;
+                }
+
+                try {
+                    const dataUrl = qrCanvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = dataUrl;
+
+                    // Generate a filename (e.g., qr-code-google_com.png)
+                    let filename = "qr-code";
+                    const textSample = textInput.value.trim().substring(0, 25).replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    if (textSample) {
+                         filename += `-${textSample}`;
+                    }
+                    filename += ".png";
+                    link.download = filename;
+
+                    // Trigger the download
+                    document.body.appendChild(link); // Required for Firefox consistency
+                    link.click();
+                    document.body.removeChild(link); // Clean up the temporary link
+
+                    showStatus("Download started.", false);
+
+                } catch (error) {
+                     console.error("Download Error:", error);
+                     showStatus(`Error preparing download: ${error.message}`, true);
+                }
+            }
+
+            function clearQRCode(message = "") {
+                // Clear the canvas content only if it exists
+                if (qrCanvas) {
+                    const ctx = qrCanvas.getContext('2d');
+                     // Store the current transformation matrix
+                    ctx.save();
+                    // Use the identity matrix while clearing the canvas
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, qrCanvas.width, qrCanvas.height); // Clear drawing
+                    // Restore the transformation matrix
+                    ctx.restore();
+                }
+
+
+                qrInstance = null; // Reset instance
+                downloadBtn.disabled = true; // Disable download
+                showStatus(message); // Show provided status message
+                 // Keep the result div visible to show the status message
+                 // qrCodeResultDiv.style.opacity = '0'; // Don't hide the whole section
+            }
+
+            function showStatus(message, isError = false) {
+                statusMessage.textContent = message;
+                statusMessage.classList.toggle('error-message', isError);
+            }
+
+            function updateTime() {
+                try {
+                    // Get current time in Bangladesh (Asia/Dhaka - UTC+6)
+                    const now = new Date();
+                    const options = {
+                        timeZone: 'Asia/Dhaka',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        // second: '2-digit', // Optional: add seconds
+                        hour12: true // Use AM/PM format
+                    };
+                    // Use 'en-US' or 'en-GB' as fallback if 'en-BD' is not universally supported
+                    const timeString = now.toLocaleTimeString('en-US', options);
+                    currentTimeSpan.textContent = timeString;
+                } catch (error) {
+                    console.error("Error updating time:", error);
+                    // Fallback or default display if time zone fails
+                    const now = new Date();
+                    const fallbackTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    currentTimeSpan.textContent = `${fallbackTime} (Local)`;
+                }
+            }
+
+        }); // End DOMContentLoaded
+    </script>
+    </body>
+</html>
